@@ -1,6 +1,5 @@
 package com.example.conference.models;
 
-import com.example.conference.entities.Conference;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,19 +10,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateConferenceDto  {
+public class UpdatePartiallyConferenceDto  {
     @Size(max = 64)
     private String title;
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
-
-    public void updateEntity(Conference conference){
-        conference.setTitle(this.title);
-        conference.setDescription(this.description);
-        conference.setStartDate(this.startDate);
-        conference.setEndDate(this.endDate);
-    }
 }
 
 

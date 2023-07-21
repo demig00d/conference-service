@@ -3,6 +3,7 @@ package com.example.conference.controllers;
 import com.example.conference.models.CreateConferenceDto;
 import com.example.conference.models.ConferenceVm;
 import com.example.conference.models.UpdateConferenceDto;
+import com.example.conference.models.UpdatePartiallyConferenceDto;
 import com.example.conference.services.IConferenceService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,14 @@ public class ConferenceController {
     @PutMapping("/{id}")
     public ResponseEntity<ConferenceVm> update(@PathVariable Long id, @Valid @RequestBody UpdateConferenceDto updateConferenceDto) {
         var updated = conferenceService.update(id, updateConferenceDto);
+        return ResponseEntity
+                .ok()
+                .body(updated);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ConferenceVm> updatePartially(@PathVariable Long id, @Valid @RequestBody UpdatePartiallyConferenceDto updatePartiallyConferenceDto) {
+        var updated = conferenceService.updatePartially(id, updatePartiallyConferenceDto);
         return ResponseEntity
                 .ok()
                 .body(updated);

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -13,6 +14,9 @@ import java.util.Date;
 public class ConferenceVm {
     private Long id;
     private String title;
+    private String description;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Date created;
     private Date updated;
 
@@ -20,6 +24,9 @@ public class ConferenceVm {
         return new ConferenceVm(
                 conference.getId(),
                 conference.getTitle(),
+                conference.getDescription(),
+                conference.getStartDate(),
+                conference.getEndDate(),
                 conference.getCreated(),
                 conference.getUpdated()
         );
