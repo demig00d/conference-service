@@ -1,10 +1,10 @@
 package com.example.conference.services;
 
 import com.example.conference.exceptions.ResourceNotFoundException;
-import com.example.conference.models.CreateConferenceDto;
-import com.example.conference.models.ConferenceVm;
-import com.example.conference.models.UpdateConferenceDto;
-import com.example.conference.models.UpdatePartiallyConferenceDto;
+import com.example.conference.models.dtos.CreateConferenceDto;
+import com.example.conference.models.dtos.UpdateConferenceDto;
+import com.example.conference.models.dtos.UpdatePartiallyConferenceDto;
+import com.example.conference.models.viewmodels.ConferenceVm;
 import com.example.conference.repositories.ConferenceRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class ConferenceService implements IConferenceService{
     private final ConferenceRepository conferenceRepository;
+    private ITalkService talkService;
 
-    public ConferenceService(ConferenceRepository conferenceRepository) {
+    public ConferenceService(ConferenceRepository conferenceRepository, ITalkService talkService) {
         this.conferenceRepository = conferenceRepository;
+        this.talkService = talkService;
     }
 
     @Override

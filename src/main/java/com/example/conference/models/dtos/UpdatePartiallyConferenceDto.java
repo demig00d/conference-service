@@ -1,4 +1,4 @@
-package com.example.conference.models;
+package com.example.conference.models.dtos;
 
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

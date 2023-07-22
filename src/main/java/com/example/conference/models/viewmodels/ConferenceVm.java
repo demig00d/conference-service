@@ -1,4 +1,4 @@
-package com.example.conference.models;
+package com.example.conference.models.viewmodels;
 
 import com.example.conference.entities.Conference;
 import lombok.AllArgsConstructor;

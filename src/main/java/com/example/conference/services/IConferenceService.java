@@ -1,9 +1,9 @@
 package com.example.conference.services;
 
-import com.example.conference.models.CreateConferenceDto;
-import com.example.conference.models.ConferenceVm;
-import com.example.conference.models.UpdateConferenceDto;
-import com.example.conference.models.UpdatePartiallyConferenceDto;
+import com.example.conference.models.dtos.CreateConferenceDto;
+import com.example.conference.models.dtos.UpdateConferenceDto;
+import com.example.conference.models.dtos.UpdatePartiallyConferenceDto;
+import com.example.conference.models.viewmodels.ConferenceVm;
 
 import java.util.List;
 
