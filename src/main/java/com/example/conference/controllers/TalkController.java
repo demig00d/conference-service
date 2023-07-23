@@ -1,16 +1,11 @@
 package com.example.conference.controllers;
 
-import com.example.conference.models.dtos.*;
-import com.example.conference.models.viewmodels.ConferenceVm;
+import com.example.conference.models.dtos.UpdateTalkDto;
 import com.example.conference.models.viewmodels.TalkVm;
-import com.example.conference.services.IConferenceService;
 import com.example.conference.services.ITalkService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/talks")

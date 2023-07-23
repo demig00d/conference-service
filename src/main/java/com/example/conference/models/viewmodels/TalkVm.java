@@ -15,6 +15,7 @@ public class TalkVm {
     private Long id;
     private String title;
     private String description;
+    private Long conferenceId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Date created;
@@ -25,11 +26,13 @@ public class TalkVm {
                 talk.getId(),
                 talk.getTitle(),
                 talk.getDescription(),
+                talk.getConference().getId(),
                 talk.getStartTime(),
                 talk.getEndTime(),
                 talk.getCreated(),
                 talk.getUpdated()
         );
     }
+
 }
 

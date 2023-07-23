@@ -57,6 +57,7 @@ public class ConferenceService implements IConferenceService{
         var entity = conferenceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Conference with id " + id + " not found."));
 
+        // ToDo: add mapper
         if (updatePartiallyConferenceDto.getTitle() != null)
             entity.setTitle(updatePartiallyConferenceDto.getTitle());
         if (updatePartiallyConferenceDto.getDescription() != null)

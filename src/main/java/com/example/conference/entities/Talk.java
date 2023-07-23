@@ -1,6 +1,8 @@
 package com.example.conference.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +19,8 @@ import java.time.LocalDateTime;
 public class Talk extends BaseEntity {
     private String title;
     private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Conference conference;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 

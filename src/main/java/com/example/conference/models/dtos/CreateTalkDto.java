@@ -1,5 +1,6 @@
 package com.example.conference.models.dtos;
 
+import com.example.conference.entities.Conference;
 import com.example.conference.entities.Talk;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -21,10 +22,14 @@ public class CreateTalkDto  {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-
-
-    public Talk toEntity(){
-        return new Talk(title, description, startTime, endTime);
+    public Talk toEntity(Conference conference) {
+        return new Talk(
+                this.title,
+                this.description,
+                conference,
+                this.startTime,
+                this.endTime
+        );
     }
 
 }

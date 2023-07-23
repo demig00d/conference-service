@@ -76,9 +76,12 @@ public class ConferenceController {
     }
 
     @PostMapping("/{id}/talks")
-    public ResponseEntity<TalkVm> create(@PathVariable Long id, @Valid @RequestBody CreateTalkDto createTalkDto, UriComponentsBuilder uriComponentsBuilder) {
-        var created = talkService.create(createTalkDto);
-        var urlLocation = uriComponentsBuilder.path("/api/v1/conferences/" + id + "/talk").buildAndExpand(created.getId());
+    public ResponseEntity<TalkVm> create(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateTalkDto createTalkDto,
+            UriComponentsBuilder uriComponentsBuilder) {
+        var created = talkService.create(id, createTalkDto);
+        var urlLocation = uriComponentsBuilder.path("/api/v1/conferences/" + id + "/talks").buildAndExpand(created.getId());
         return ResponseEntity
                 .created(urlLocation.toUri())
                 .body(created);

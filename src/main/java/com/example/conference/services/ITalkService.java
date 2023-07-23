@@ -9,7 +9,7 @@ import java.util.List;
 public interface ITalkService {
     TalkVm getById(Long id);
     List<TalkVm> getAllByConferenceId(Long conferenceId);
-    TalkVm create(CreateTalkDto createTalkeDto);
+    TalkVm create(Long conferenceid, CreateTalkDto createTalkeDto);
     TalkVm update(Long id, UpdateTalkDto updateTalkDto);
     void delete(Long id);
 }
