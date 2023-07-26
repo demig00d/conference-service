@@ -1,6 +1,7 @@
 package com.example.conference.models.dtos;
 
 import com.example.conference.entities.Conference;
+import com.example.conference.entities.Location;
 import com.example.conference.entities.Talk;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class UpdateConferenceDto  {
     private String title;
     private String description;
     private Set<Talk> talks;
+    private Set<Location> locations;
     private LocalDate startDate;
     private LocalDate endDate;
 
@@ -25,6 +27,7 @@ public class UpdateConferenceDto  {
         conference.setTitle(this.title);
         conference.setDescription(this.description);
         conference.setTalks(this.talks);
+        conference.setLocations(this.locations);
         conference.setStartDate(this.startDate);
         conference.setEndDate(this.endDate);
     }

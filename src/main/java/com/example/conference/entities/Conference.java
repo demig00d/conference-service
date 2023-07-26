@@ -1,7 +1,6 @@
 package com.example.conference.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +22,16 @@ public class Conference extends BaseEntity {
 
   @OneToMany(mappedBy = "conference")
   private Set<Talk> talks = new HashSet<>();
+
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(
+          name = "conference_location",
+          joinColumns = @JoinColumn(name = "conference_id", referencedColumnName = "id"),
+          inverseJoinColumns = @JoinColumn(name = "location_id", referencedColumnName = "id")
+  )
+  private Set<Location> locations = new HashSet<>();
   private LocalDate startDate;
   private LocalDate endDate;
-
 
   public Conference(Long id) {
     this.id = id;
@@ -40,4 +46,15 @@ public class Conference extends BaseEntity {
     talks.remove(talk);
     talk.setConference(null);
   }
+
+  public void addLocation(Location location) {
+    locations.add(location);
+    location.getConferences().add(this);
+  }
+
+  public void removeLocation(Location location) {
+    locations.remove(location);
+    location.getConferences().remove(this);
+  }
+
 }

@@ -17,12 +17,12 @@ public class TalkController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/conferences/{id}")
     public TalkVm getById(@PathVariable Long id) {
         return talkService.getById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/conferences/{id}")
     public ResponseEntity<TalkVm> update(@PathVariable Long id, @Valid @RequestBody UpdateTalkDto updateTalkDto) {
         var updated = talkService.update(id, updateTalkDto);
         return ResponseEntity
@@ -31,7 +31,7 @@ public class TalkController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/conferences/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         talkService.delete(id);
         return ResponseEntity

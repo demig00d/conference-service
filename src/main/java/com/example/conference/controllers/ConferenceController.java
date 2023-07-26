@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1/conferences")
+@RequestMapping(value = "/api/v1")
 public class ConferenceController {
     public final IConferenceService conferenceService;
     public final ITalkService talkService;
@@ -26,17 +26,17 @@ public class ConferenceController {
         this.talkService = talkService;
     }
 
-    @GetMapping()
+    @GetMapping("/conferences")
     public List<ConferenceVm> getAll() {
         return conferenceService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/conferences/{id}")
     public ConferenceVm get(@PathVariable Long id) {
         return conferenceService.getById(id);
     }
 
-    @PostMapping()
+    @PostMapping("/conferences")
     public ResponseEntity<ConferenceVm> create(@Valid @RequestBody CreateConferenceDto createConferenceDto, UriComponentsBuilder uriComponentsBuilder) {
         var created = conferenceService.create(createConferenceDto);
         var urlLocation = uriComponentsBuilder.path("/api/v1/conferences/{id}").buildAndExpand(created.getId());
@@ -45,7 +45,7 @@ public class ConferenceController {
                 .body(created);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/conferences/{id}")
     public ResponseEntity<ConferenceVm> update(@PathVariable Long id, @Valid @RequestBody UpdateConferenceDto updateConferenceDto) {
         var updated = conferenceService.update(id, updateConferenceDto);
         return ResponseEntity
@@ -53,7 +53,7 @@ public class ConferenceController {
                 .body(updated);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/conferences/{id}")
     public ResponseEntity<ConferenceVm> updatePartially(@PathVariable Long id, @Valid @RequestBody UpdatePartiallyConferenceDto updatePartiallyConferenceDto) {
         var updated = conferenceService.updatePartially(id, updatePartiallyConferenceDto);
         return ResponseEntity
@@ -62,7 +62,7 @@ public class ConferenceController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/conferences/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         conferenceService.delete(id);
         return ResponseEntity
@@ -70,12 +70,12 @@ public class ConferenceController {
                 .body("deleted");
     }
 
-    @GetMapping("/{id}/talks")
+    @GetMapping("/conferences/{id}/talks")
     public List<TalkVm> getAllByConferenceId(@PathVariable Long id) {
         return talkService.getAllByConferenceId(id);
     }
 
-    @PostMapping("/{id}/talks")
+    @PostMapping("/conferences/{id}/talks")
     public ResponseEntity<TalkVm> create(
             @PathVariable Long id,
             @Valid @RequestBody CreateTalkDto createTalkDto,
@@ -87,6 +87,10 @@ public class ConferenceController {
                 .body(created);
     }
 
+    @GetMapping(value = "/locations/{locationId}/conference")
+    public List<ConferenceVm> getAllConferencesByLocationId(@PathVariable Long locationId) {
+        return conferenceService.getAllByLocationId(locationId);
+    }
 }
 
 

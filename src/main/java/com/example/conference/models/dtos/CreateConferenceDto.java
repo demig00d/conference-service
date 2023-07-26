@@ -1,6 +1,7 @@
 package com.example.conference.models.dtos;
 
 import com.example.conference.entities.Conference;
+import com.example.conference.entities.Location;
 import com.example.conference.entities.Talk;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,13 +21,14 @@ public class CreateConferenceDto  {
     private String title;
     private String description;
     private Set<Talk> talks;
+    private Set<Location> locations;
     private LocalDate startDate;
     private LocalDate endDate;
 
 
 
     public Conference toEntity(){
-        return new Conference(title, description, talks, startDate, endDate);
+        return new Conference(title, description, talks, locations, startDate, endDate);
     }
 
 }

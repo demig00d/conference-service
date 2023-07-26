@@ -6,6 +6,7 @@ import com.example.conference.models.dtos.UpdateConferenceDto;
 import com.example.conference.models.dtos.UpdatePartiallyConferenceDto;
 import com.example.conference.models.viewmodels.ConferenceVm;
 import com.example.conference.repositories.ConferenceRepository;
+import com.example.conference.repositories.LocationRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class ConferenceService implements IConferenceService{
     private final ConferenceRepository conferenceRepository;
-    private ITalkService talkService;
+    private final LocationRepository locationRepository;
 
-    public ConferenceService(ConferenceRepository conferenceRepository, ITalkService talkService) {
+    public ConferenceService(ConferenceRepository conferenceRepository, LocationRepository locationRepository) {
         this.conferenceRepository = conferenceRepository;
-        this.talkService = talkService;
+        this.locationRepository = locationRepository;
     }
 
     @Override
@@ -80,5 +81,31 @@ public class ConferenceService implements IConferenceService{
         }
     }
 
+    @Override
+    public void addLocation(Long conferenceId, Long locationId) {
+        var conference = conferenceRepository.findById(conferenceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Conference with id " + conferenceId + " not found."));
+        var location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Location with id " + conferenceId + " not found."));
+        conference.addLocation(location);
+        conferenceRepository.save(conference);
+    }
 
+    @Override
+    public void removeLocation(Long conferenceId, Long locationId) {
+        var conference = conferenceRepository.findById(conferenceId)
+                .orElseThrow(() -> new ResourceNotFoundException("Conference with id " + conferenceId + " not found."));
+        var location = locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Location with id " + conferenceId + " not found."));
+        conference.removeLocation(location);
+        conferenceRepository.save(conference);
+    }
+
+    @Override
+    public List<ConferenceVm> getAllByLocationId(Long locationId){
+        return conferenceRepository.findAllByLocationId(locationId)
+                .stream()
+                .map(ConferenceVm::fromEntity)
+                .collect(Collectors.toList());
+    }
 }

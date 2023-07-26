@@ -14,4 +14,7 @@ public interface IConferenceService {
         ConferenceVm update(Long id, UpdateConferenceDto updateConferenceDto);
         ConferenceVm updatePartially(Long id, UpdatePartiallyConferenceDto updatePartiallyConferenceDto);
         void delete(Long id);
+        void removeLocation(Long conferenceId, Long locationId);
+        void addLocation(Long conferenceId, Long locationId);
+        List<ConferenceVm> getAllByLocationId(Long locationId);
 }

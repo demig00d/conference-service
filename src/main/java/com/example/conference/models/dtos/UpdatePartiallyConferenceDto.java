@@ -1,5 +1,6 @@
 package com.example.conference.models.dtos;
 
+import com.example.conference.entities.Location;
 import com.example.conference.entities.Talk;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class UpdatePartiallyConferenceDto  {
     private String title;
     private String description;
     private Set<Talk> talks;
+    private Location location;
     private LocalDate startDate;
     private LocalDate endDate;
 }
