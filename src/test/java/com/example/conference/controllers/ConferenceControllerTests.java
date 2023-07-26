@@ -1,5 +1,6 @@
 package com.example.conference.controllers;
 
+import com.example.conference.utils.FakeCalendar;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.conference.exceptions.ResourceNotFoundException;
@@ -65,8 +66,8 @@ public class ConferenceControllerTests {
                 "ScalaConf 2019",
                 "description1",
                 new HashSet<>(),
-                LocalDate.now(),
-                LocalDate.now(),
+                FakeCalendar.LOCAL_DATE,
+                FakeCalendar.LOCAL_DATE,
                 new Date(),
                 new Date()
         );
@@ -76,8 +77,8 @@ public class ConferenceControllerTests {
                 "Zymposiums",
                 "description2",
                 new HashSet<>(),
-                LocalDate.now(),
-                LocalDate.now(),
+                FakeCalendar.LOCAL_DATE,
+                FakeCalendar.LOCAL_DATE,
                 new Date(),
                 new Date()
         );
@@ -100,8 +101,8 @@ public class ConferenceControllerTests {
                 "ScalaConf 2019",
                 "description1",
                 new HashSet<>(),
-                LocalDate.now(),
-                LocalDate.now(),
+                FakeCalendar.LOCAL_DATE,
+                FakeCalendar.LOCAL_DATE,
                 new Date(),
                 new Date()
         );
@@ -127,9 +128,8 @@ public class ConferenceControllerTests {
         var mockDto = new UpdateConferenceDto(
                 "asd",
                 "asd",
-                new HashSet<>(),
-                LocalDate.now(),
-                LocalDate.now()
+                FakeCalendar.LOCAL_DATE,
+                FakeCalendar.LOCAL_DATE
         );
         Mockito.doThrow(ResourceNotFoundException.class)
                 .when(conferenceService)
@@ -147,9 +147,8 @@ public class ConferenceControllerTests {
         var mockDto = new UpdateConferenceDto(
                 "asd",
                 "asd",
-                new HashSet<>(),
-                LocalDate.now(),
-                LocalDate.now()
+                FakeCalendar.LOCAL_DATE,
+                FakeCalendar.LOCAL_DATE
         );
 
         mockMvc.perform(
@@ -179,7 +178,7 @@ public class ConferenceControllerTests {
         mockVm.setId(1L);
         when(conferenceService.create(any())).thenReturn(mockVm);
 
-        var dto = new CreateConferenceDto("title", "asd", new HashSet<>(), LocalDate.now(), LocalDate.now());
+        var dto = new CreateConferenceDto("title", "asd", FakeCalendar.LOCAL_DATE, FakeCalendar.LOCAL_DATE);
         mockMvc.perform(
                         post("/api/v1/conference")
                                 .accept(MediaType.APPLICATION_JSON)

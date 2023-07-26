@@ -1,15 +1,12 @@
-package co;
+package com.example.conference.services;
 
 
 import com.example.conference.entities.Conference;
-import com.example.conference.entities.Location;
-import com.example.conference.entities.Talk;
 import com.example.conference.exceptions.ResourceNotFoundException;
 import com.example.conference.models.dtos.CreateConferenceDto;
 import com.example.conference.models.dtos.UpdateConferenceDto;
 import com.example.conference.models.viewmodels.ConferenceVm;
 import com.example.conference.repositories.ConferenceRepository;
-import com.example.conference.services.ConferenceService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -62,7 +59,7 @@ public class ConferenceServiceTests {
         var fakeConference = new Conference();
         fakeConference.setId(1L);
         when(mockConferenceRepository.save(any(Conference.class))).thenReturn(fakeConference);
-        var createDto = new CreateConferenceDto("Title", "Some description", new HashSet<Talk>(), null, null);
+        var createDto = new CreateConferenceDto("Title", "Some description",  null, null);
         var conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
 
         service.create(createDto);
@@ -82,13 +79,12 @@ public class ConferenceServiceTests {
 
     @Test
     public void updateChangesEntity() {
-        var fakeConference = new Conference("Title", "Some description", new HashSet<Talk>(), new HashSet<Location>(),null, null);
+        var fakeConference = new Conference("Title", "Some description", new HashSet<>(), new HashSet<>(),null, null);
         fakeConference.setId(1L);
         when(mockConferenceRepository.findById(1L)).thenReturn(Optional.of(fakeConference));
         var conferenceArgumentCaptor = ArgumentCaptor.forClass(Conference.class);
         var dto = new UpdateConferenceDto();
         dto.setTitle("New title");
-        dto.setTalks(new HashSet<>());
 
         service.update(1L, dto);
 
