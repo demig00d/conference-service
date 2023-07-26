@@ -1,9 +1,6 @@
 package com.example.conference.controllers;
 
-import com.example.conference.entities.Talk;
-import com.example.conference.models.viewmodels.TalkVm;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.example.conference.exceptions.ResourceNotFoundException;
 import com.example.conference.models.dtos.CreateConferenceDto;
@@ -47,7 +44,7 @@ public class ConferenceControllerTests {
     }
 
     protected <T> T mapFromJson(String json, Class<T> clazz)
-            throws JsonParseException, JsonMappingException, IOException {
+            throws JsonParseException, IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, clazz);
@@ -63,12 +60,31 @@ public class ConferenceControllerTests {
 
     @Test
     public void getReturnsListOfConferences() throws Exception {
-        var mockData = List.of(
-                new ConferenceVm(1L, "ScalaConf 2019", "description1", new HashSet<TalkVm>(), LocalDate.now(), LocalDate.now(), new Date(), new Date()),
-                new ConferenceVm(2L, "Zymposiums", "description2", new HashSet<TalkVm>(), LocalDate.now(), LocalDate.now(), new Date(), new Date())
+        var mockVm1 = new ConferenceVm(
+                1L,
+                "ScalaConf 2019",
+                "description1",
+                new HashSet<>(),
+                LocalDate.now(),
+                LocalDate.now(),
+                new Date(),
+                new Date()
         );
+
+        var mockVm2 = new ConferenceVm(
+                2L,
+                "Zymposiums",
+                "description2",
+                new HashSet<>(),
+                LocalDate.now(),
+                LocalDate.now(),
+                new Date(),
+                new Date()
+        );
+
+        var mockData = List.of(mockVm1, mockVm2);
         when(conferenceService.getAll()).thenReturn(mockData);
-        var result = mockMvc.perform(get("/api/v1/conference"))
+        var result = mockMvc.perform(get("/api/v1/conferences"))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = result.getResponse().getContentAsString();
@@ -83,14 +99,14 @@ public class ConferenceControllerTests {
                 1L,
                 "ScalaConf 2019",
                 "description1",
-                new HashSet<TalkVm>(),
+                new HashSet<>(),
                 LocalDate.now(),
                 LocalDate.now(),
                 new Date(),
                 new Date()
         );
         when(conferenceService.getById(1L)).thenReturn(mockVm);
-        var result = mockMvc.perform(get("/api/v1/conference/1"))
+        var result = mockMvc.perform(get("/api/v1/conferences/1"))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = result.getResponse().getContentAsString();
@@ -101,31 +117,46 @@ public class ConferenceControllerTests {
     @Test
     public void get404OnInvalidId() throws Exception {
         when(conferenceService.getById(any(Long.class))).thenThrow(new ResourceNotFoundException("Not found"));
-        var result = mockMvc.perform(get("/api/v1/conference/1"))
+        var result = mockMvc.perform(get("/api/v1/conferences/1"))
                 .andExpect(status().isNotFound())
                 .andReturn();
     }
 
     @Test
     public void update404OnInvalidId() throws Exception {
+        var mockDto = new UpdateConferenceDto(
+                "asd",
+                "asd",
+                new HashSet<>(),
+                LocalDate.now(),
+                LocalDate.now()
+        );
         Mockito.doThrow(ResourceNotFoundException.class)
                 .when(conferenceService)
                 .update(any(Long.class), any(UpdateConferenceDto.class));
         mockMvc.perform(
-                        put("/api/v1/conference/1")
+                        put("/api/v1/conferences/1")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapToJson(new UpdateConferenceDto("asd", "asd", new HashSet<Talk>(), LocalDate.now(), LocalDate.now()))))
+                                .content(mapToJson(mockDto)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void putCallsService() throws Exception {
+        var mockDto = new UpdateConferenceDto(
+                "asd",
+                "asd",
+                new HashSet<>(),
+                LocalDate.now(),
+                LocalDate.now()
+        );
+
         mockMvc.perform(
-                        put("/api/v1/conference/1")
+                        put("/api/v1/conferences/1")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .content(mapToJson(new UpdateConferenceDto("asd", "asd", new HashSet<Talk>(), LocalDate.now(), LocalDate.now()))))
+                                .content(mapToJson(mockDto)))
                 .andExpect(status().isNoContent());
         verify(conferenceService).update(any(Long.class), any(UpdateConferenceDto.class));
     }
@@ -133,7 +164,7 @@ public class ConferenceControllerTests {
     @Test
     public void deleteCallsService() throws Exception {
         mockMvc.perform(
-                        delete("/api/v1/conference/1")
+                        delete("/api/v1/conferences/1")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -148,7 +179,7 @@ public class ConferenceControllerTests {
         mockVm.setId(1L);
         when(conferenceService.create(any())).thenReturn(mockVm);
 
-        var dto = new CreateConferenceDto("title", "asd", new HashSet<Talk>(), LocalDate.now(), LocalDate.now());
+        var dto = new CreateConferenceDto("title", "asd", new HashSet<>(), LocalDate.now(), LocalDate.now());
         mockMvc.perform(
                         post("/api/v1/conference")
                                 .accept(MediaType.APPLICATION_JSON)

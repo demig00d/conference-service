@@ -71,7 +71,7 @@ public class LocationController {
                 .build();
     }
 
-    @DeleteMapping("/locations/{locationId}/conference/{conferenceId}")
+    @DeleteMapping("/locations/{locationId}/conferences/{conferenceId}")
     public ResponseEntity<String> removeConference(@PathVariable long locationId, @PathVariable long conferenceId) {
         conferenceService.removeLocation(conferenceId, locationId);
         return ResponseEntity

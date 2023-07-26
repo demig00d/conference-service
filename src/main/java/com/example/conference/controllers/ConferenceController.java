@@ -3,7 +3,6 @@ package com.example.conference.controllers;
 import com.example.conference.models.dtos.CreateConferenceDto;
 import com.example.conference.models.dtos.CreateTalkDto;
 import com.example.conference.models.dtos.UpdateConferenceDto;
-import com.example.conference.models.dtos.UpdatePartiallyConferenceDto;
 import com.example.conference.models.viewmodels.ConferenceVm;
 import com.example.conference.models.viewmodels.TalkVm;
 import com.example.conference.services.IConferenceService;
@@ -52,15 +51,6 @@ public class ConferenceController {
                 .ok()
                 .body(updated);
     }
-
-    @PatchMapping("/conferences/{id}")
-    public ResponseEntity<ConferenceVm> updatePartially(@PathVariable Long id, @Valid @RequestBody UpdatePartiallyConferenceDto updatePartiallyConferenceDto) {
-        var updated = conferenceService.updatePartially(id, updatePartiallyConferenceDto);
-        return ResponseEntity
-                .ok()
-                .body(updated);
-    }
-
 
     @DeleteMapping("/conferences/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {

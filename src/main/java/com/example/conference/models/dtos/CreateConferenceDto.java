@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -20,15 +21,13 @@ public class CreateConferenceDto  {
     @Size(max = 64)
     private String title;
     private String description;
-    private Set<Talk> talks;
-    private Set<Location> locations;
     private LocalDate startDate;
     private LocalDate endDate;
 
 
 
     public Conference toEntity(){
-        return new Conference(title, description, talks, locations, startDate, endDate);
+        return new Conference(title, description, new HashSet<>(), new HashSet<>(), startDate, endDate);
     }
 
 }
